@@ -15,11 +15,13 @@ import ir.dunijet.dunifood.model.Food
 import ir.dunijet.dunifood.model.MyDatabase
 import ir.dunijet.dunifood.utils.BASE_URL_IMAGE
 import ir.dunijet.dunifood.utils.showToast
+import javax.inject.Inject
 
 class MainScreenActivity : AppCompatActivity(), FoodAdapter.FoodEvents, MainScreenContract.View {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainAdapter: FoodAdapter
-    private lateinit var presenter: MainScreenContract.Presenter
+    @Inject
+    lateinit var presenter: MainScreenContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

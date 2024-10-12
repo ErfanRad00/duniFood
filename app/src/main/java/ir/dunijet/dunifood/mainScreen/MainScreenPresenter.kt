@@ -2,11 +2,20 @@ package ir.dunijet.dunifood.mainScreen
 
 import ir.dunijet.dunifood.model.Food
 import ir.dunijet.dunifood.model.FoodDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainScreenPresenter(private val foodDao: FoodDao) : MainScreenContract.Presenter {
+class MainScreenPresenter @Inject constructor(private val foodDao: FoodDao) : MainScreenContract.Presenter {
 
     private var mainView: MainScreenContract.View? = null
+    private val presenterScope = CoroutineScope(Dispatchers.Main + Job())
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun firstRun() {
 
         val firstRunFoodList = listOf(
@@ -119,14 +128,22 @@ class MainScreenPresenter(private val foodDao: FoodDao) : MainScreenContract.Pre
                 rating = 2.5f
             ),
         )
-        foodDao.insertAllFoods(firstRunFoodList)
+
+        presenterScope.launch {
+            foodDao.insertAllFoods(firstRunFoodList)
+        }
+
 
     }
     override fun onAttach(view: MainScreenContract.View) {
-        mainView = view
 
-        val data = foodDao.getAllFoods()
-        mainView!!.showFoods(data)
+        presenterScope.launch {
+            mainView = view
+
+            val data = foodDao.getAllFoods()
+            mainView!!.showFoods(data)
+        }
+
     }
 
     override fun onDetach() {
@@ -134,43 +151,59 @@ class MainScreenPresenter(private val foodDao: FoodDao) : MainScreenContract.Pre
     }
     override fun onSearchFood(filter: String) {
 
-        if (filter.isNotEmpty()) {
+        presenterScope.launch {
+            if (filter.isNotEmpty()) {
 
-            // show filtered data
-            val dataToShow = foodDao.searchFoods(filter)
-            mainView!!.refreshFoods(dataToShow)
+                // show filtered data
+                val dataToShow = foodDao.searchFoods(filter)
+                mainView!!.refreshFoods(dataToShow)
 
-        } else {
+            } else {
 
-            // show all data
-            val dataToShow = foodDao.getAllFoods()
-            mainView!!.refreshFoods(dataToShow)
+                // show all data
+                val dataToShow = foodDao.getAllFoods()
+                mainView!!.refreshFoods(dataToShow)
 
+            }
         }
+
+
 
     }
     override fun onAddNewFoodClicked(food: Food) {
 
-        foodDao.insertOrUpdate(food)
-        mainView!!.addNewFood(food)
+        presenterScope.launch {
+            foodDao.insertOrUpdate(food)
+            mainView!!.addNewFood(food)
+
+        }
 
     }
     override fun onDeleteAllClicked() {
 
-        foodDao.deleteAllFoods()
-        mainView!!.refreshFoods(foodDao.getAllFoods())
+        presenterScope.launch {
+            foodDao.deleteAllFoods()
+            mainView!!.refreshFoods(foodDao.getAllFoods())
+        }
+
 
     }
     override fun onUpdateFood(food: Food, pos: Int) {
 
-        foodDao.insertOrUpdate(food)
-        mainView!!.updateFood(food, pos)
+        presenterScope.launch {
+            foodDao.insertOrUpdate(food)
+            mainView!!.updateFood(food, pos)
+        }
+
 
     }
     override fun onDeleteFood(food: Food, pos: Int) {
 
-        foodDao.deleteFood(food)
-        mainView!!.deleteFood(food, pos)
+       presenterScope.launch {
+            foodDao.deleteFood(food)
+            mainView!!.deleteFood(food, pos)
+
+        }
 
     }
 

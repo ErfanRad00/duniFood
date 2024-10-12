@@ -6,27 +6,27 @@ import androidx.room.*
 interface FoodDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrUpdate(food : Food)
+  suspend  fun insertOrUpdate(food : Food)
 
 //    @Insert
 //    fun insertFood(food: Food)
 
     @Insert
-    fun insertAllFoods(data :List<Food>)
+   suspend fun insertAllFoods(data :List<Food>)
 
 //    @Update
 //    fun updateFood(food: Food)
 
     @Delete
-    fun deleteFood(food: Food)
+     fun deleteFood(food: Food)
 
     @Query("DELETE FROM table_food")
-    fun deleteAllFoods()
+   suspend fun deleteAllFoods()
 
     @Query("SELECT * FROM table_food")
-    fun getAllFoods(): List<Food>
+   suspend fun getAllFoods(): List<Food>
 
     @Query("SELECT * FROM table_food WHERE txtSubject LIKE '%' || :searching || '%' ")
-    fun searchFoods(searching: String): List<Food>
+   suspend fun searchFoods(searching: String): List<Food>
 
 }
