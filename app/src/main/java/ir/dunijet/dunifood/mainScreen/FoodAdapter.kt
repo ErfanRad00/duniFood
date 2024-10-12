@@ -112,10 +112,7 @@ class FoodAdapter(private val data: ArrayList<Food>, private val foodEvents: Foo
 
     interface FoodEvents {
 
-        // 1. create interface in adapter
-        // 2. get an object  of interface in args of adapter
-        // 3. fill (call) object of interface with your data
-        // 4. implementation in MainActivity
+
 
         fun onFoodClicked(food: Food, position: Int)
         fun onFoodLongClicked(food: Food, pos: Int)

@@ -11,7 +11,6 @@ import ir.dunijet.dunifood.databinding.ActivityMainBinding
 import ir.dunijet.dunifood.databinding.DialogAddNewItemBinding
 import ir.dunijet.dunifood.databinding.DialogDeleteItemBinding
 import ir.dunijet.dunifood.databinding.DialogUpdateItemBinding
-
 import ir.dunijet.dunifood.model.Food
 import ir.dunijet.dunifood.model.MyDatabase
 import ir.dunijet.dunifood.utils.BASE_URL_IMAGE
@@ -79,7 +78,7 @@ class MainScreenActivity : AppCompatActivity(), FoodAdapter.FoodEvents, MainScre
                 val txtRatingNumber: Int = (1..150).random()
                 val ratingBarStar: Float = (1..5).random().toFloat()
                 val randomForUrl = (1 until 12).random()
-                val urlPic = BASE_URL_IMAGE + randomForUrl.toString() + ".jpg"
+                val urlPic = "$BASE_URL_IMAGE$randomForUrl.jpg"
 
 
 

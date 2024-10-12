@@ -6,5 +6,5 @@ interface BasePresenter<T> {
 }
 
 interface BaseView {
-    // write your functions for view here
+
 }

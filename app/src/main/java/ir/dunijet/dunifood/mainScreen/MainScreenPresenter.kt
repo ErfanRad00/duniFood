@@ -3,10 +3,9 @@ package ir.dunijet.dunifood.mainScreen
 import ir.dunijet.dunifood.model.Food
 import ir.dunijet.dunifood.model.FoodDao
 
-class MainScreenPresenter(
-    private val foodDao: FoodDao
-) : MainScreenContract.Presenter {
-    var mainView: MainScreenContract.View? = null
+class MainScreenPresenter(private val foodDao: FoodDao) : MainScreenContract.Presenter {
+
+    private var mainView: MainScreenContract.View? = null
 
     override fun firstRun() {
 
