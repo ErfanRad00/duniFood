@@ -27,6 +27,6 @@ interface FoodDao {
    suspend fun getAllFoods(): List<Food>
 
     @Query("SELECT * FROM table_food WHERE txtSubject LIKE '%' || :searching || '%' ")
-   suspend fun searchFoods(searching: String): List<Food>
+ fun searchFoods(searching: String): List<Food>
 
 }
